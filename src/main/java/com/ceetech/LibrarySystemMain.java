@@ -1,18 +1,22 @@
 package com.ceetech;
 
+import com.ceetech.service.LibrarySystemService;
+import com.ceetech.service.impl.LibrarySystemServiceImpl;
 import com.ceetech.util.CustomFormatter;
 
 import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
-public class Main {
-    private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
+public class LibrarySystemMain {
+    private static final Logger LOGGER = Logger.getLogger(LibrarySystemMain.class.getName());
 
 
     public static void main(String[] args) throws IOException {
         initializeLogger();
         System.out.println("Hello world!");
+        LibrarySystemService librarySystemService = new LibrarySystemServiceImpl();
+        librarySystemService.startApplication(LOGGER);
     }
 
     static public void initializeLogger() {
