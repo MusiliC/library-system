@@ -1,4 +1,11 @@
 package com.ceetech;
+
+import com.ceetech.db.DatabaseHandler;
+import com.ceetech.db.impl.DatabaseHandlerImpl;
+import com.ceetech.service.AuthenticationService;
+import com.ceetech.service.LibraryService;
+import com.ceetech.service.impl.AuthenticationServiceImpl;
+import com.ceetech.service.impl.LibraryServiceImpl;
 import com.ceetech.util.CustomFormatter;
 
 import java.io.IOException;
@@ -9,10 +16,12 @@ import java.util.logging.Logger;
 public class Main {
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
-
     public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
-        initializeLogger();        
-       
+        initializeLogger();
+        DatabaseHandler databaseHandler = new DatabaseHandlerImpl();
+        AuthenticationService authenticationService = new AuthenticationServiceImpl(databaseHandler, LOGGER);
+        LibraryService libraryService = new LibraryServiceImpl(authenticationService, LOGGER);
+        libraryService.startApplication();
     }
 
     static public void initializeLogger() {
