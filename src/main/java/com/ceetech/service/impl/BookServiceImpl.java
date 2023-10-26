@@ -94,8 +94,7 @@ public class BookServiceImpl implements BookService {
     public boolean saveBook(Book book) throws RuntimeException {
         logger.info("Saving book " + book.getTitle());
         String booksQuery = "insert into books(isbn, title, author, book_edition, category)values(?,?,?,?,?);";
-        try (Connection connection = databaseHandler.connect(Config.CONNECTION_URL, Config.DEFAULT_USERNAME, Config.DB_PASSWORD);
-             PreparedStatement preparedStatement = connection.prepareStatement(booksQuery)) {
+        try (Connection connection = databaseHandler.connect(Config.CONNECTION_URL, Config.DEFAULT_USERNAME, Config.DB_PASSWORD); PreparedStatement preparedStatement = connection.prepareStatement(booksQuery)) {
             preparedStatement.setString(1, book.getISBN());
             preparedStatement.setString(2, book.getTitle());
             preparedStatement.setString(3, book.getAuthor());
