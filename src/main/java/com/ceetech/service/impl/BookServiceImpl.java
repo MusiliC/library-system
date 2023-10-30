@@ -28,7 +28,7 @@ public class BookServiceImpl implements BookService {
         logger.info("Initializing table book in DB..");
 
 
-        try (Connection connection = databaseHandler.connect(Config.CONNECTION_URL, Config.DEFAULT_USERNAME, Config.DB_PASSWORD);
+        try (Connection connection = databaseHandler.connect(Config.CONNECTION_URL, Config.DB_USER, Config.DB_PASSWORD);
              Statement statement = connection.createStatement();
         ) {
             String query = "create table if not exists books(id int not null auto_increment primary key,isbn varchar(50) not null unique,title varchar(100) not null,author varchar(100) not null,book_edition varchar(50) not null,category ENUM('FICTION', 'NON_FICTION') not null );";
@@ -47,7 +47,7 @@ public class BookServiceImpl implements BookService {
     public List<Book> GetAllBooks() throws RuntimeException {
         List<Book> books = new ArrayList<>();
         logger.info("Getting all books");
-        try (Connection connection = databaseHandler.connect(Config.CONNECTION_URL, Config.DEFAULT_USERNAME, Config.DB_PASSWORD); Statement statement = connection.createStatement()) {
+        try (Connection connection = databaseHandler.connect(Config.CONNECTION_URL, Config.DB_USER, Config.DB_PASSWORD); Statement statement = connection.createStatement()) {
             String booksQuery = "select * from books;";
             ResultSet resultSet = statement.executeQuery(booksQuery);
             while (resultSet.next()) {
@@ -72,7 +72,7 @@ public class BookServiceImpl implements BookService {
     public Book getBookByIsbn(String isbn) throws BookNotFoundException {
         logger.info("Getting book by isbn " + isbn);
         String booksQuery = "select * from books where isbn = ?";
-        try (Connection connection = databaseHandler.connect(Config.CONNECTION_URL, Config.DEFAULT_USERNAME, Config.DB_PASSWORD); PreparedStatement preparedStatement = connection.prepareStatement(booksQuery)) {
+        try (Connection connection = databaseHandler.connect(Config.CONNECTION_URL, Config.DB_USER, Config.DB_PASSWORD); PreparedStatement preparedStatement = connection.prepareStatement(booksQuery)) {
             preparedStatement.setString(1, isbn);
             ResultSet resultSet = preparedStatement.executeQuery(booksQuery);
             while (resultSet.next()) {
@@ -94,7 +94,7 @@ public class BookServiceImpl implements BookService {
     public boolean saveBook(Book book) throws RuntimeException {
         logger.info("Saving book " + book.getTitle());
         String booksQuery = "insert into books(isbn, title, author, book_edition, category)values(?,?,?,?,?);";
-        try (Connection connection = databaseHandler.connect(Config.CONNECTION_URL, Config.DEFAULT_USERNAME, Config.DB_PASSWORD); PreparedStatement preparedStatement = connection.prepareStatement(booksQuery)) {
+        try (Connection connection = databaseHandler.connect(Config.CONNECTION_URL, Config.DB_USER, Config.DB_PASSWORD); PreparedStatement preparedStatement = connection.prepareStatement(booksQuery)) {
             preparedStatement.setString(1, book.getISBN());
             preparedStatement.setString(2, book.getTitle());
             preparedStatement.setString(3, book.getAuthor());

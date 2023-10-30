@@ -4,21 +4,34 @@ import java.sql.SQLException;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
+import com.ceetech.model.Book;
+import com.ceetech.model.Category;
+import com.ceetech.model.Student;
 import com.ceetech.service.AuthenticationService;
 import com.ceetech.service.LibraryService;
 import com.ceetech.util.Config;
 
 public class LibraryServiceImpl implements LibraryService {
 
+    private Student Student;
+    private Book Book;
     private AuthenticationService authenticationService;
+    private BookServiceImpl bookServiceImpl;
     private Logger logger;
+
+    private StudentServiceImpl studentServiceImpl;
 
     Scanner scanner;
 
-    public LibraryServiceImpl(AuthenticationService authenticationService, Logger logger) {
+    public LibraryServiceImpl(AuthenticationService authenticationService, BookServiceImpl bookServiceImpl,
+            StudentServiceImpl studentServiceImpl,
+            Logger logger) {
         scanner = new Scanner(System.in);
         this.authenticationService = authenticationService;
+        this.bookServiceImpl = bookServiceImpl;
+        this.studentServiceImpl = studentServiceImpl;
         this.logger = logger;
+
     }
 
     @Override
@@ -27,7 +40,58 @@ public class LibraryServiceImpl implements LibraryService {
         boolean isLoggedIn = authenticateUser();
         logger.info("User authenticated: " + isLoggedIn);
         System.out.println();
+        // saving student
+        // Student addStudent = newStudent();
+        // studentServiceImpl.saveStudent(addStudent);
+        // saving a book
+        Book addBook = newBook();
+        bookServiceImpl.saveBook(addBook);
 
+    }
+
+    private void showMenu() {
+        System.out.println("---------------");
+        System.out.println();
+        System.out.println("LIBRARY MANAGEMENT SYSTEM");
+        System.out.println();
+        System.out.println("---------------");
+        System.out.println();
+        System.out.println("1. BORROW A BOOK");
+        System.out.println("2. VIEW BORROWED BOOKS");
+        System.out.println("3. RETURN A BOOK");
+        System.out.println("4. QUIT");
+        System.out.println();
+    }
+
+    private Student newStudent() {
+        studentServiceImpl.setupDB();
+        System.out.print("Enter student reg number: ");
+        String regNo = scanner.nextLine();
+        System.out.print("Enter student name: ");
+        String studentName = scanner.nextLine();
+
+        Student = new Student(regNo, studentName);
+
+        return Student;
+    }
+
+    private Book newBook() {
+        bookServiceImpl.setupDB();
+      
+        System.out.print("Enter book ISBN: ");
+        String ISBN = scanner.nextLine();
+        System.out.print("Enter book author: ");
+        String author = scanner.nextLine();
+        System.out.print("Enter book title: ");
+        String title = scanner.nextLine();
+        System.out.print("Enter book edition: ");
+        String edition = scanner.nextLine();
+        System.out.println("Enter the category (FICTION, NON_FICTION): ");
+        String category = scanner.nextLine().toUpperCase();
+        Category selectedCategory = Category.valueOf(category);
+        Book = new Book(ISBN, author, title, edition, selectedCategory);
+
+        return Book;
     }
 
     private boolean authenticateUser() {

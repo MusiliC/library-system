@@ -1,7 +1,7 @@
 package com.ceetech.util;
 
 public class Config {
-    public static final String DEFAULT_USERNAME = "Musili";
+    //public static final String DEFAULT_USERNAME = "Musili";
     public static final String USER_DEFAULT_PASSWORD = "Admin123";
 
     public static final int LOGIN_RETRIES_LIMIT =3;

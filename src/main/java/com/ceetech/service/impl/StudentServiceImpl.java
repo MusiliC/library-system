@@ -24,7 +24,7 @@ public class StudentServiceImpl implements StudentService {
         logger.info("Initializing table student in DB..");
 
 
-        try (Connection connection = databaseHandler.connect(Config.CONNECTION_URL, Config.DEFAULT_USERNAME, Config.DB_PASSWORD);
+        try (Connection connection = databaseHandler.connect(Config.CONNECTION_URL, Config.DB_USER, Config.DB_PASSWORD);
              Statement statement = connection.createStatement();
         ) {
             String query = "create table if not exists students(id int not null auto_increment primary key,reg_no varchar(50) not null unique,name varchar(100) not null);";
@@ -44,7 +44,7 @@ public class StudentServiceImpl implements StudentService {
     public boolean saveStudent(Student student) throws RuntimeException {
         logger.info("Saving student " + student.getStudentName());
         String studentsQuery = "insert into students(reg_no, name)values(?,?);";
-        try (Connection connection = databaseHandler.connect(Config.CONNECTION_URL, Config.DEFAULT_USERNAME, Config.DB_PASSWORD); PreparedStatement preparedStatement = connection.prepareStatement(studentsQuery)) {
+        try (Connection connection = databaseHandler.connect(Config.CONNECTION_URL, Config.DB_USER, Config.DB_PASSWORD); PreparedStatement preparedStatement = connection.prepareStatement(studentsQuery)) {
             preparedStatement.setString(1, student.getRegNo());
             preparedStatement.setString(2, student.getStudentName());
             int noRowsInserted = preparedStatement.executeUpdate();
@@ -55,5 +55,10 @@ public class StudentServiceImpl implements StudentService {
             return false;
         }
 
+    }
+
+    @Override
+    public Student getStudentByRegNo(String regNo) {
+        return null;
     }
 }

@@ -13,6 +13,8 @@ public class Book {
     public Book() {
     }
 
+
+
     public Book(int id, String ISBN, String author, String title, String edition, Category category) {
         this.id = id;
         this.ISBN = ISBN;
@@ -28,6 +30,14 @@ public class Book {
         this.title = title;
         this.edition = edition;
         this.category = category;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getISBN() {
