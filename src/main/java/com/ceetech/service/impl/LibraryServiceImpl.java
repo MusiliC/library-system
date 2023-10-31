@@ -1,6 +1,7 @@
 package com.ceetech.service.impl;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
@@ -40,58 +41,77 @@ public class LibraryServiceImpl implements LibraryService {
         boolean isLoggedIn = authenticateUser();
         logger.info("User authenticated: " + isLoggedIn);
         System.out.println();
+        getBookIsbn();
+        // allBooks();
         // saving student
         // Student addStudent = newStudent();
         // studentServiceImpl.saveStudent(addStudent);
         // saving a book
-        Book addBook = newBook();
-        bookServiceImpl.saveBook(addBook);
+        // Book addBook = newBook();
+        // bookServiceImpl.saveBook(addBook);
+        //Get all books
 
     }
 
-    private void showMenu() {
-        System.out.println("---------------");
-        System.out.println();
-        System.out.println("LIBRARY MANAGEMENT SYSTEM");
-        System.out.println();
-        System.out.println("---------------");
-        System.out.println();
-        System.out.println("1. BORROW A BOOK");
-        System.out.println("2. VIEW BORROWED BOOKS");
-        System.out.println("3. RETURN A BOOK");
-        System.out.println("4. QUIT");
-        System.out.println();
-    }
+    // private void showMenu() {
+    //     System.out.println("---------------");
+    //     System.out.println();
+    //     System.out.println("LIBRARY MANAGEMENT SYSTEM");
+    //     System.out.println();
+    //     System.out.println("---------------");
+    //     System.out.println();
+    //     System.out.println("1. BORROW A BOOK");
+    //     System.out.println("2. VIEW BORROWED BOOKS");
+    //     System.out.println("3. RETURN A BOOK");
+    //     System.out.println("4. QUIT");
+    //     System.out.println();
+    // }
 
-    private Student newStudent() {
-        studentServiceImpl.setupDB();
-        System.out.print("Enter student reg number: ");
-        String regNo = scanner.nextLine();
-        System.out.print("Enter student name: ");
-        String studentName = scanner.nextLine();
+    // private Student newStudent() {
+   
+    //     System.out.print("Enter student reg number: ");
+    //     String regNo = scanner.nextLine();
+    //     System.out.print("Enter student name: ");
+    //     String studentName = scanner.nextLine();
 
-        Student = new Student(regNo, studentName);
+    //     Student = new Student(regNo, studentName);
 
-        return Student;
-    }
+    //     return Student;
+    // }
 
-    private Book newBook() {
-        bookServiceImpl.setupDB();
+    // private Book newBook() {
+   
       
-        System.out.print("Enter book ISBN: ");
-        String ISBN = scanner.nextLine();
-        System.out.print("Enter book author: ");
-        String author = scanner.nextLine();
-        System.out.print("Enter book title: ");
-        String title = scanner.nextLine();
-        System.out.print("Enter book edition: ");
-        String edition = scanner.nextLine();
-        System.out.println("Enter the category (FICTION, NON_FICTION): ");
-        String category = scanner.nextLine().toUpperCase();
-        Category selectedCategory = Category.valueOf(category);
-        Book = new Book(ISBN, author, title, edition, selectedCategory);
+    //     System.out.print("Enter book ISBN: ");
+    //     String ISBN = scanner.nextLine();
+    //     System.out.print("Enter book author: ");
+    //     String author = scanner.nextLine();
+    //     System.out.print("Enter book title: ");
+    //     String title = scanner.nextLine();
+    //     System.out.print("Enter book edition: ");
+    //     String edition = scanner.nextLine();
+    //     System.out.println("Enter the category (FICTION, NON_FICTION): ");
+    //     String category = scanner.nextLine().toUpperCase();
+    //     Category selectedCategory = Category.valueOf(category);
+    //     Book = new Book(ISBN, author, title, edition, selectedCategory);
 
-        return Book;
+    //     return Book;
+    // }
+
+    // private void allBooks(){
+    //     System.out.println("All books in the library");
+    //     System.out.println();
+    //    List<Book> books = bookServiceImpl.GetAllBooks();
+    //     System.out.println(books);
+    //     System.out.println("Id " + " ISBN " + " Author " + " Title " + " Edition " + " Category ");
+
+    // }
+
+    private void getBookIsbn(){
+        System.out.print("Enter book ISBN number: ");
+        String ISBN = scanner.nextLine();
+        Book retrievedBook = bookServiceImpl.getBookByIsbn(ISBN);
+        System.out.println(retrievedBook);
     }
 
     private boolean authenticateUser() {

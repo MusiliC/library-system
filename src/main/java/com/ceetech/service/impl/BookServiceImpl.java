@@ -71,7 +71,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book getBookByIsbn(String isbn) throws BookNotFoundException {
         logger.info("Getting book by isbn " + isbn);
-        String booksQuery = "select * from books where isbn = ?";
+        String booksQuery = "SELECT * FROM books WHERE isbn = ?;";
         try (Connection connection = databaseHandler.connect(Config.CONNECTION_URL, Config.DB_USER, Config.DB_PASSWORD); PreparedStatement preparedStatement = connection.prepareStatement(booksQuery)) {
             preparedStatement.setString(1, isbn);
             ResultSet resultSet = preparedStatement.executeQuery(booksQuery);
